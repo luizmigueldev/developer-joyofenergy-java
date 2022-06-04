@@ -49,11 +49,11 @@ public class MeterReadingControllerTest {
     public void givenMultipleBatchesOfMeterReadingsShouldStore() {
         MeterReadings meterReadings = new MeterReadingsBuilder().setSmartMeterId(SMART_METER_ID)
                 .generateElectricityReadings()
-                .build();
+                .building();
 
         MeterReadings otherMeterReadings = new MeterReadingsBuilder().setSmartMeterId(SMART_METER_ID)
                 .generateElectricityReadings()
-                .build();
+                .building();
 
         meterReadingController.storeReadings(meterReadings);
         meterReadingController.storeReadings(otherMeterReadings);
@@ -69,11 +69,11 @@ public class MeterReadingControllerTest {
     public void givenMeterReadingsAssociatedWithTheUserShouldStoreAssociatedWithUser() {
         MeterReadings meterReadings = new MeterReadingsBuilder().setSmartMeterId(SMART_METER_ID)
                 .generateElectricityReadings()
-                .build();
+                .building();
 
         MeterReadings otherMeterReadings = new MeterReadingsBuilder().setSmartMeterId("00001")
                 .generateElectricityReadings()
-                .build();
+                .building();
 
         meterReadingController.storeReadings(meterReadings);
         meterReadingController.storeReadings(otherMeterReadings);

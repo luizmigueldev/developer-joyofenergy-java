@@ -12,12 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import uk.tw.energy.builders.MeterReadingsBuilder;
-import uk.tw.energy.domain.MeterReadings;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = App.class)
-public class EndpointTest {
+public class EndpointTest extends MeterReadingsBuilder{
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -26,8 +25,8 @@ public class EndpointTest {
 
     @Test
     public void shouldStoreReadings() throws JsonProcessingException {
-        MeterReadings meterReadings = new MeterReadingsBuilder().generateElectricityReadings().build();
-        HttpEntity<String> entity = getStringHttpEntity(meterReadings);
+        build();
+        HttpEntity<String> entity = getStringHttpEntity(FirstMeterBilder);
 
         ResponseEntity<String> response = restTemplate.postForEntity("/readings/store", entity, String.class);
 
@@ -72,11 +71,10 @@ public class EndpointTest {
     }
 
     private void populateMeterReadingsForMeter(String smartMeterId) throws JsonProcessingException {
-        MeterReadings readings = new MeterReadingsBuilder().setSmartMeterId(smartMeterId)
-                .generateElectricityReadings(20)
-                .build();
+        
+        build(smartMeterId, 20);        
 
-        HttpEntity<String> entity = getStringHttpEntity(readings);
+        HttpEntity<String> entity = getStringHttpEntity(SecundMeterBilder);
         restTemplate.postForEntity("/readings/store", entity, String.class);
     }
 }
